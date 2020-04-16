@@ -9,6 +9,7 @@ lazy val commonSettings = Seq(
   libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.8" % "test",
   libraryDependencies += "org.json4s" %% "json4s-native" % "3.6.1",
   libraryDependencies += "org.scala-lang" % "scala-reflect" % scalaVersion.value,
+  libraryDependencies += "edu.berkeley.cs" %% "chiseltest" % "0.2-SNAPSHOT",
   addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full),
   exportJars := true,
   resolvers ++= Seq(
