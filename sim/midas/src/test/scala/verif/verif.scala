@@ -43,11 +43,13 @@ class GenericDriver[T <: CAMIOInTr] (c : ParameterizedCAMAssociative) {
 			// Using hardcoded for now
 			if (!inputTransactions.isEmpty) {
 				val t = inputTransactions.dequeue
-				c.io.en.poke(t.en.B)
-				c.io.we.poke(t.we.B)
-				c.io.keyRe.poke(t.keyRe.U)
-				c.io.keyWr.poke(t.keyWr.U)
-				c.io.dataWr.poke(t.dataWr.U)
+				if (!t.isInstanceOf[CAMIOInTrNull]) {
+					c.io.en.poke(t.en.B)
+					c.io.we.poke(t.we.B)
+					c.io.keyRe.poke(t.keyRe.U)
+					c.io.keyWr.poke(t.keyWr.U)
+					c.io.dataWr.poke(t.dataWr.U)
+				}
 			}
 			c.clock.step()
 		}
@@ -59,7 +61,6 @@ class GenericMonitor[T <: CAMIOOutTr] (c : ParameterizedCAMAssociative) {
 	val monitoredTransactions = MutableList[CAMIOOutTr]()
 
 	def getMonitoredTransactions(): MutableList[CAMIOOutTr] = {
-		println("Empty")
 		return monitoredTransactions;
 	}
 
@@ -71,7 +72,6 @@ class GenericMonitor[T <: CAMIOOutTr] (c : ParameterizedCAMAssociative) {
 		while(true) {
 			// Hardcoded for now, can work with MACROs later
 			monitoredTransactions += CAMIOOutTr(c.io.found.peek.litToBoolean, c.io.dataRe.peek.litValue.toInt)
-			println("Stepped")
 			c.clock.step()
 		}
 	}

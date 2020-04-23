@@ -34,24 +34,17 @@ class ParameterizedCAMAssociative(keyWidth: Int, dataWidth: Int, memSizeWidth: I
   val index = Wire(UInt(memSizeWidth.W))
   val found = (keyReg(index) === io.keyRe) && io.en
 
-  // printf(p"===========================\n")
   when (io.we) {
     keyReg(wrIndex) := io.keyWr
     valReg(wrIndex) := io.dataWr
     wrIndex := wrIndex + 1.U
-    // printf(p"REF keyWr = ${io.keyWr}\n")
-    // printf(p"REF dataWr = ${io.dataWr}\n")
   } 
 
   when (io.en) {
     index := keyReg.indexWhere(_ === io.keyRe)
-    // printf(p"REF keyRe = ${io.keyRe}\n")
   } .otherwise {
     index := (memorySize - 1).U
   }
-  // printf(p"REF index = ${index}\n")
-  // printf(p"REF found = ${found}\n")
-  // printf(p"REF dataRe = ${valReg(index)}\n")
 
   // Outputs
   io.found := found
